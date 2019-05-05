@@ -1,0 +1,32 @@
+#!/bin/sh
+#dep: w3m, less, xsltproc, unzip
+
+tmpdir=$(mktemp -d /tmp/w3mepub-XXXXXX)
+xsldir=~/test/w3mepub/xslt
+confile=~/test/w3mepub/w3m.conf
+LESSKEY=$HOME/test/w3mepub/lesskey
+export LESSKEY
+unset LESS_IS_MORE
+unset LESSSECURE
+
+trap 'rm -r $tmpdir' 0 1 15
+
+xmltr() {
+	xsltproc --stringparam rootdir "${rootdir:-na}" \
+		"${xsldir}/${1}.xsl" "${tmpdir}/${2}"
+}
+
+unzip -q "$1" -d "$tmpdir" || {
+	echo Cannot extract
+	exit 0
+}
+
+fullpath=$(xmltr fullpath META-INF/container.xml)
+title=$(xmltr title "$fullpath")
+abspath=${tmpdir}/${fullpath}
+rootdir=${abspath%/*}
+
+IFS="
+"
+w3m -config "$confile" -T text/html -cols 65 -dump \
+	$(xmltr content "$fullpath") | less
