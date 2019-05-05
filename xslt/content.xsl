@@ -8,7 +8,8 @@ xmlns:dc="http://purl.org/dc/elements/1.1/">
 			<xsl:variable name="idsel" select="@idref"/>
 			<xsl:value-of select="$rootdir" />
 			<xsl:text>/</xsl:text>
-			<xsl:value-of select="/opf:package/opf:manifest/opf:item[@id=$idsel]/@href"/>
+			<xsl:value-of select="/opf:package/
+			opf:manifest/opf:item[@id=$idsel]/@href"/>
 			<xsl:text>&#xa;</xsl:text>
 		</xsl:for-each>
 	</xsl:template>
