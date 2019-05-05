@@ -1,0 +1,14 @@
+w3mepub
+=======
+Text-based EPUB reader.
+
+Dependencies
+------------
+* w3m
+* unzip
+* xsltproc (comes w/ libxslt)
+* less
+
+Installation
+------------
+	sudo make install

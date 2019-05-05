@@ -1,5 +1,4 @@
 #!/bin/sh
-#dep: w3m, less, xsltproc, unzip
 
 tmpdir=$(mktemp -d /tmp/w3mepub-XXXXXX)
 xsldir=~/test/w3mepub/xslt
