@@ -15,7 +15,7 @@ xmltr() {
 
 unzip -q "$1" -d "$tmpdir" || {
 	echo Cannot extract
-	exit 0
+	exit 1
 }
 
 fullpath=$(xmltr fullpath META-INF/container.xml)
