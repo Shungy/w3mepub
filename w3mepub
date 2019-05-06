@@ -1,18 +1,16 @@
 #!/bin/sh
 
 tmpdir=$(mktemp -d /tmp/w3mepub-XXXXXX)
-xsldir=~/test/w3mepub/xslt
-confile=~/test/w3mepub/w3m.conf
-LESSKEY=$HOME/test/w3mepub/lesskey
-export LESSKEY
+confdir=/usr/local/share/w3mepub
+export LESSKEY=${confdir}/less.conf
 unset LESS_IS_MORE
 unset LESSSECURE
 
-trap 'rm -r $tmpdir' 0 1 15
+trap 'rm -r "$tmpdir"' 0 1 15
 
 xmltr() {
 	xsltproc --stringparam rootdir "${rootdir:-na}" \
-		"${xsldir}/${1}.xsl" "${tmpdir}/${2}"
+		"${confdir}/${1}.xsl" "${tmpdir}/${2}"
 }
 
 unzip -q "$1" -d "$tmpdir" || {
@@ -27,5 +25,6 @@ rootdir=${abspath%/*}
 
 IFS="
 "
-w3m -config "$confile" -T text/html -cols 65 -dump \
-	$(xmltr content "$fullpath") | less
+w3m -config "${confdir}/w3m.conf" -T text/html \
+	-cols 65 -dump $(xmltr content "$fullpath") | \
+	less
